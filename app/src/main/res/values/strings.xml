@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">A2</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <!--string constants used by the application-->
+    <string name="EMPTY_USER_NAME">Empty user name</string>
+    <string name="NON_ALPHA_NUMERIC_USER_NAME">Non-alphanumeric user name</string>
+    <string name="INVALID_EMAIL_ADDRESS">Invalid email address</string>
+    <string name="EMPTY_STRING"></string>
+    <string name="FIREBASE_DB_URL">[Enter your Firebase URL here]</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

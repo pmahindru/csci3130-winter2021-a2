@@ -1,56 +1,100 @@
 package ca.dal.cs.csci3130.a2;
 
+
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import android.view.Menu;
-import android.view.MenuItem;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-public class MainActivity extends AppCompatActivity {
+    public static String WELCOME_MESSAGE = "ca.dal.csci3130.a2.welcome";
+
+    FirebaseDatabase database = null;
+    DatabaseReference userNameRef = null;
+    DatabaseReference emailRef = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //attaching the event handler
+        Button registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(this);
+
+        //initiating the Firebase
+        initializeDatabase();
+
+    }
+
+    protected void initializeDatabase() {
+        //initialize your database and related fields here
+    }
+
+    protected String getUserName() {
+        EditText userName = findViewById(R.id.userName);
+        return userName.getText().toString().trim();
+    }
+
+    protected String getEmailAddress() {
+        EditText emailAddress = findViewById(R.id.emailAddress);
+        return emailAddress.getText().toString().trim();
+    }
+
+    protected boolean isEmptyUserName(String userName) {
+        return userName.isEmpty();
+    }
+
+    protected boolean isAlphanumericUserName(String userName) {
+        //your business logic goes here!
+        return false;
+    }
+
+    protected boolean isValidEmailAddress(String emailAddress) {
+        //your business logic goes here!
+        return false;
+    }
+
+    protected void switch2WelcomeWindow(String userName, String emailAddress) {
+        //your business logic goes here!
+    }
+
+    protected void saveUserNameToFirebase(String userName) {
+        //save user name to Firebase
+    }
+
+    protected void saveEmailToFirebase(String emailAddress) {
+        //save email to Firebase
+    }
+
+    protected void setStatusMessage(String message) {
+        TextView statusLabel = findViewById(R.id.statusLabel);
+        statusLabel.setText(message);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    public void onClick(View view) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        String userName = getUserName();
+        String emailAddress = getEmailAddress();
+        String errorMessage = new String();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (isEmptyUserName(userName)) {
+            errorMessage = getResources().getString(R.string.EMPTY_USER_NAME);
         }
 
-        return super.onOptionsItemSelected(item);
+        //check for valid user name and valid email email address
+
+        if (errorMessage.isEmpty()) {
+            //no errors were found!
+            //much of the business logic goes here!
+        } else {
+            setStatusMessage(errorMessage);
+        }
     }
 }
