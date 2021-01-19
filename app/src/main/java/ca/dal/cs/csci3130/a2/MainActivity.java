@@ -1,6 +1,5 @@
 package ca.dal.cs.csci3130.a2;
 
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
