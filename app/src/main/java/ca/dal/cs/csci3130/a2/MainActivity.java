@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,8 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected boolean isAlphanumericUserName(String userName) {
-        //your business logic goes here!
-        return false;
+        return userName.matches("^[a-zA-Z0-9]+$");
     }
 
     protected boolean isValidEmailAddress(String emailAddress) {
@@ -87,13 +88,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             errorMessage = getResources().getString(R.string.EMPTY_USER_NAME);
         }
 
+
         //check for valid user name and valid email email address
+        else if (isAlphanumericUserName(userName)) {
+            errorMessage = getResources().getString(R.string.EMPTY_STRING);
+        }
+        else{
+            errorMessage = getResources().getString(R.string.NON_ALPHA_NUMERIC_USER_NAME);
+        }
 
         if (errorMessage.isEmpty()) {
             //no errors were found!
             //much of the business logic goes here!
+            setStatusMessage(errorMessage);
         } else {
             setStatusMessage(errorMessage);
         }
+
+        //below line is only for check (below line is taken from the firebase lab)
+        //Toast.makeText(MainActivity.this,"Firebaseconnection success", Toast.LENGTH_LONG).show();
     }
 }
