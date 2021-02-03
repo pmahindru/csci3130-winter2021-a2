@@ -52,12 +52,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected boolean isAlphanumericUserName(String userName) {
+        /*
+        ^ --> meaning the starting of the string
+        a-z and A-Z --> meaning the lowercase and uppercase character matches in the username is allowed
+        0-9 --> meaning matches any number from 0 to 9 is allowed
+        + --> meaning that matches one or more quantifier
+        $ -->  meaning the end of the string
+
+        Below code do if the username does not matches any non alphanumeric in the username
+        then it show the empty string in the message.
+
+        if it contains any non alphanumeric then it will show the appropriate error in the message.
+        */
         return userName.matches("^[a-zA-Z0-9]+$");
     }
 
     protected boolean isValidEmailAddress(String emailAddress) {
         //your business logic goes here!
-        return false;
+        /*
+        ^ --> meaning the starting of the string
+        . --> meaning that matches any character except the newline symbol
+        () --> meaning that these brackets are used for the grouping characters
+        + --> meaning that matches one or more quantifier
+        $ -->  meaning the end of the string
+
+        Below code do if the email is valid then it show the empty string in the message.
+
+        if it email is not valid then it will show the appropriate error in the message.
+        */
+        return emailAddress.matches("^(.+)@(.+)$");
     }
 
     protected void switch2WelcomeWindow(String userName, String emailAddress) {
@@ -87,14 +110,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isEmptyUserName(userName)) {
             errorMessage = getResources().getString(R.string.EMPTY_USER_NAME);
         }
-
-
-        //check for valid user name and valid email email address
-        else if (isAlphanumericUserName(userName)) {
-            errorMessage = getResources().getString(R.string.EMPTY_STRING);
-        }
-        else{
-            errorMessage = getResources().getString(R.string.NON_ALPHA_NUMERIC_USER_NAME);
+        else {
+            //check for valid user name and valid email email address
+            if (isAlphanumericUserName(userName)) {
+                if(isValidEmailAddress(emailAddress)){
+                    errorMessage = getResources().getString(R.string.EMPTY_STRING);
+                }
+                else{
+                    errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS);
+                }
+            }
+            else{
+                errorMessage = getResources().getString(R.string.NON_ALPHA_NUMERIC_USER_NAME);
+            }
         }
 
         if (errorMessage.isEmpty()) {
