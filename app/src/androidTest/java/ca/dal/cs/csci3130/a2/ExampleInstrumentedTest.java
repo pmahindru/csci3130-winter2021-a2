@@ -100,6 +100,4 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.registerButton)).perform(click());
         intended(hasComponent(WelcomeActivity.class.getName()));
     }
-
-
 }

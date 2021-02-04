@@ -1,5 +1,6 @@
 package ca.dal.cs.csci3130.a2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,7 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -15,8 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static String WELCOME_MESSAGE = "ca.dal.csci3130.a2.welcome";
 
-    FirebaseDatabase database = null;
-    DatabaseReference userNameRef = null;
+    FirebaseDatabase database =  FirebaseDatabase.getInstance();
+    DatabaseReference userNameRef = database.getReference("message");;
     DatabaseReference emailRef = null;
 
     @Override
@@ -85,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void switch2WelcomeWindow(String userName, String emailAddress) {
         //your business logic goes here!
+        Intent switchintent = new Intent(this,WelcomeActivity.class);
+        switchintent.putExtra(WELCOME_MESSAGE,"Welcome " + userName + "!\n" + "A Welcome Email was sent to "+ emailAddress);
+        startActivity(switchintent);
     }
 
     protected void saveUserNameToFirebase(String userName) {
@@ -112,23 +118,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             //check for valid user name and valid email email address
-            if (isAlphanumericUserName(userName)) {
-                if(isValidEmailAddress(emailAddress)){
-                    errorMessage = getResources().getString(R.string.EMPTY_STRING);
-                }
-                else{
-                    errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS);
-                }
-            }
-            else{
+            if(!isAlphanumericUserName(userName)){
                 errorMessage = getResources().getString(R.string.NON_ALPHA_NUMERIC_USER_NAME);
             }
+            else if (!isValidEmailAddress(emailAddress)){
+                errorMessage = getResources().getString(R.string.INVALID_EMAIL_ADDRESS);
+            }
+            else {
+                errorMessage = getResources().getString(R.string.EMPTY_STRING);
+            }
         }
+
+
 
         if (errorMessage.isEmpty()) {
             //no errors were found!
             //much of the business logic goes here!
             setStatusMessage(errorMessage);
+            if (isAlphanumericUserName(userName) && isValidEmailAddress(emailAddress)) {
+                switch2WelcomeWindow(userName,emailAddress);
+            }
+
         } else {
             setStatusMessage(errorMessage);
         }
