@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static String WELCOME_MESSAGE = "ca.dal.csci3130.a2.welcome";
 
-    FirebaseDatabase database =  FirebaseDatabase.getInstance();
-    DatabaseReference userNameRef = database.getReference("message");;
+    FirebaseDatabase database =  null;
+    DatabaseReference userNameRef = null;
     DatabaseReference emailRef = null;
 
     @Override
@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void initializeDatabase() {
         //initialize your database and related fields here
+        database =  FirebaseDatabase.getInstance();
+        userNameRef = database.getReference();
+        emailRef = database.getReference();
     }
 
     protected String getUserName() {
@@ -95,10 +98,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void saveUserNameToFirebase(String userName) {
         //save user name to Firebase
+        userNameRef.child("user").setValue(userName);
     }
 
     protected void saveEmailToFirebase(String emailAddress) {
         //save email to Firebase
+        emailRef.child("email").setValue(emailAddress);
     }
 
     protected void setStatusMessage(String message) {
@@ -129,17 +134,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
-
         if (errorMessage.isEmpty()) {
             //no errors were found!
             //much of the business logic goes here!
             setStatusMessage(errorMessage);
             if (isAlphanumericUserName(userName) && isValidEmailAddress(emailAddress)) {
+                saveUserNameToFirebase(userName);
+                saveEmailToFirebase(emailAddress);
                 switch2WelcomeWindow(userName,emailAddress);
             }
-
-        } else {
+        }
+        else {
             setStatusMessage(errorMessage);
         }
 
