@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void switch2WelcomeWindow(String userName, String emailAddress) {
         //your business logic goes here!
+
+        /*
+        below code is taken from the lab and make some change to be sure it is working properly
+         */
         Intent switchintent = new Intent(this,WelcomeActivity.class);
         switchintent.putExtra(WELCOME_MESSAGE,"Welcome " + userName + "!\n" + "A Welcome Email was sent to "+ emailAddress);
         startActivity(switchintent);
